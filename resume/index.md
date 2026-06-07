@@ -9,8 +9,8 @@ layout: resume
 
 **基本信息**
 梁志荣 男 27岁 Java经验5年
-- 电话: l32427429l3 邮箱: [zeawinl@gmail.com](mailto:zeawinl@gmail.com)
-- GitHub: [thesomeexp](https://github.com/thesomeexp) 简历: [p2gg.com/resume](https://p2gg.com/resume)
+- 电话: l32427429l3 邮箱: [p2gg@qq.com](mailto:p2gg@qq.com)
+- GitHub: [p2gg](https://github.com/p2gg) 简历: [p2gg.com/resume](https://p2gg.com/resume)
 
 **技术能力** 
 - 具有扎实的 Java 基础, 对常见的集合类 (HashMap) 的实现有一定的了解.

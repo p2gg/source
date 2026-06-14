@@ -6,9 +6,7 @@ description: About p2gg Blog
 希望世界更开源, 透明与自由.
 
 - 博主是90后.
-- GitHub<a href="https://github.com/thesomeexp"><img src="https://github.com/favicon.ico"  width="16" /></a>: [thesomeexp](https://github.com/thesomeexp)
-- X<a href="http://x.com/MrP2GG"><img src="https://abs.twimg.com/favicons/twitter.3.ico"  width="16" /></a>: [MrP2GG](http://x.com/MrP2GG)
-- Bluesky<a href="https://bsky.app/profile/someexp.bsky.social"><img src="https://bsky.app/static/favicon-16x16.png"  width="16" /></a>: [someexp.bsky.social](https://bsky.app/profile/someexp.bsky.social)
+- GitHub<a href="https://github.com/p2gg"><img src="https://github.com/favicon.ico"  width="16" /></a>: [p2gg](https://github.com/p2gg)
 - 订阅: [Atom](/atom.xml)/[RSS](/rss2.xml)
 
 书单: 

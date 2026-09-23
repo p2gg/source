@@ -114,13 +114,12 @@ TED 10 ways to have a better conversation
 低于15度洗澡太冷(羽绒可以顶)
 17度穿卫衣
 
-补票
+游戏补票
 开发的项目组说不定早就解散了吧，开发团队还在的就补
 
 土豆电影
 搏击俱乐部
 图灵密码 The Turing Enigma (2011)
-猫鼠游戏
 教父 // done
 弱点
 盗梦空间

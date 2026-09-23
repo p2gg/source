@@ -9,7 +9,7 @@ layout: resume
 
 **基本信息**
 梁志荣 男 27岁 Java经验5年
-- 电话: l32427429l3 邮箱: [p2gg@qq.com](mailto:p2gg@qq.com)
+- 电话: l8546978273 邮箱: [p2gg@qq.com](mailto:p2gg@qq.com)
 - GitHub: [p2gg](https://github.com/p2gg) 简历: [p2gg.com/resume](https://p2gg.com/resume)
 
 **技术能力** 

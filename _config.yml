@@ -101,7 +101,7 @@ feed:
 ## Docs: https://hexo.io/docs/deployment.html
 deploy:
   type: git
-  repo: https://github.com/thesomeexp/thesomeexp.github.io.git
+  repo: https://github.com/p2gg/thesomeexp.github.io.git
   branch: master
 
 favicon: 

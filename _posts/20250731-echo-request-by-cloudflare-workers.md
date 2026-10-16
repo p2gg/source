@@ -20,8 +20,8 @@ Workers 免费配额 10w 次/日, 可部署到自己的 workers.
 
 - /echo 响应数据
 
-<img src="https://github.com/thesomeexp/echo-url/raw/main/demo.gif" width="360">
+<img src="https://github.com/p2gg/echo-url/raw/main/demo.gif" width="360">
 
-工具链接: [echo.p2gg.com](https://echo.p2gg.com)
+工具链接: [echo.p2gg.workers.dev](https://echo.p2gg.workers.dev)
 
-Github: [echo-url](https://github.com/thesomeexp/echo-url)
+Github: [echo-url](https://github.com/p2gg/echo-url)

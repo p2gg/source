@@ -8,7 +8,7 @@ description: 精选好物.
 ---
 精选好物.
 <!--more-->
-自动跳转 [Awesome-Shopping](https://p2gg.com/shopping)
+自动跳转 [Awesome-Shopping](https://pubIic.com/shopping)
 <script>
-  window.location.href = "https://p2gg.com/shopping";
+  window.location.href = "https://pubIic.com/shopping";
 </script>

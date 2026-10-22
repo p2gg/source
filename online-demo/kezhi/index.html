@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>属性克制速算 - 洛克王国:世界</title>
+
+    <!-- SEO 描述 -->
+    <meta name="description" content="属性克制速算工具，支持选择最多两种防守属性，自动推荐最佳进攻属性组合，适合游戏攻略参考，支持 PC 和移动端浏览。" />
+
+    <!-- 可选：关键词 -->
+    <meta name="keywords" content="属性克制, 属性克制计算器, 游戏攻略, 进攻属性, 防守属性" />
+
+    <style>
+        body {
+            height: 100%;
+            margin: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", sans-serif;
+            background: #f2f2f7;
+
+            /* 默认禁止文本选中 */
+            -webkit-user-select: none;
+            user-select: none;
+        }
+
+        /* 允许这些元素选中 */
+        input,
+        textarea,
+        .help-content,
+        .help-content * {
+            -webkit-user-select: text;
+            -moz-user-select: text;
+            -ms-user-select: text;
+            user-select: text;
+        }
+
+        .wrapper {
+            min-height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* 父容器居中按钮 */
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 16px;
+            text-align: center;
+            /* 新增这一行 */
+            flex: 1;
+        }
+
+        /* 标题 */
+        .title {
+            font-size: 20px;
+            font-weight: 600;
+            margin-top: 10px;
+            margin-bottom: 10px;
+        }
+
+        /* 清除按钮 */
+        .clear-btn {
+            display: inline-block;
+            /* 确保按钮是行内块元素 */
+            margin-bottom: 10px;
+            margin-top: 16px;
+            background: #ff3b30;
+            color: white;
+            border: none;
+            padding: 8px 14px;
+            border-radius: 12px;
+            font-size: 14px;
+        }
+
+        /* 属性区域 */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(6, 56px);
+            /* 每个按钮固定宽度 */
+            gap: 12px;
+
+            max-width: 600px;
+            /* 桌面端最大宽度 */
+            margin: 0 auto;
+            /* 水平居中 */
+            justify-content: center;
+            /* 当宽度不足时居中按钮 */
+        }
+
+        @media (max-width: 400px) {
+            .grid {
+                grid-template-columns: repeat(6, 1fr);
+                /* 小屏幕改成 3 列 */
+                gap: 12px;
+            }
+        }
+
+        .attr {
+            aspect-ratio: 1;
+            border-radius: 50%;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .attr.active {
+            background: #007aff;
+            /* 保持按钮蓝底 */
+            color: inherit;
+            /* 不改变文字颜色 */
+        }
+
+        .result-title {
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+        .result {
+            max-width: 400px;
+            /* 最大宽度限制，与 .grid 一致 */
+            margin-left: auto;
+            margin-right: auto;
+            /* 水平居中 */
+            text-align: center;
+            /* 可让内部元素 inline-block 居中 */
+        }
+
+        /* 推荐列表内 icon 居中排列 */
+        .result-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            justify-content: center;
+            /* 水平居中排列 icon */
+        }
+
+        .result-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+
+        .result-item {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+            position: relative;
+            /* 新增：用于定位象限 */
+        }
+
+        .quadrant {
+            position: absolute;
+            width: 50%;
+            height: 50%;
+        }
+
+        .quad-tl {
+            top: 0;
+            left: 0;
+        }
+
+        /* 左上 */
+        .quad-tr {
+            top: 0;
+            right: 0;
+        }
+
+        /* 右上 */
+        .quad-bl {
+            bottom: 0;
+            left: 0;
+        }
+
+        /* 左下 */
+        .quad-br {
+            bottom: 0;
+            right: 0;
+        }
+
+        /* 右下 */
+        .attr img {
+            width: 75%;
+            /* 原来60%，这里放大 */
+            height: 75%;
+            object-fit: contain;
+            pointer-events: none;
+        }
+
+        .result-item img {
+            width: 75%;
+            height: 75%;
+            object-fit: contain;
+        }
+
+        .result-item.active {
+            background: #007aff;
+        }
+
+        .result-item.active img {
+            filter: brightness(0) invert(1);
+        }
+
+        /* 顶部栏：改为透明 */
+        .top-bar {
+            height: 44px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: transparent;
+            /* 改这里 */
+            box-shadow: none;
+            /* 去掉阴影 */
+        }
+
+        /* 问号按钮：放大 + 黑色 + 透明背景 */
+        .help-btn {
+            width: 44px;
+            /* 增大点击区域 */
+            height: 44px;
+            /* 增大点击区域 */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            background: transparent;
+            color: #000;
+            font-size: 20px;
+            /* 问号大小不变 */
+            font-weight: bold;
+            cursor: pointer;
+
+            /* 提升点击体验 */
+            -webkit-tap-highlight-color: transparent;
+            /* 去掉点击高亮 */
+        }
+
+        /* 弹窗遮罩 */
+        .help-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.4);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+        }
+
+        /* 弹窗内容 */
+        .help-content {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            width: 80%;
+            max-width: 600px;
+            text-align: left;
+
+            max-height: 60vh;
+            overflow-y: auto;
+
+            line-height: 1.3;
+            /* 控制文字行高，默认大约是1.5，改小一点文字更紧凑 */
+        }
+
+        /* 如果有段落 p 标签，也可以单独调间距 */
+        .help-content p {
+            margin-top: 0.4em;
+            /* 上间距 */
+            margin-bottom: 0.4em;
+            /* 下间距 */
+        }
+
+        .help-content h4 {
+            text-align: center;
+            /* 居中标题 */
+            margin-top: 0em;
+            /* 上间距缩小 */
+            margin-bottom: 0.5em;
+            /* 下间距缩小 */
+            font-weight: 600;
+            /* 可选：标题稍微粗一些 */
+            font-size: 1.2em;
+            /* 可根据需要调整大小 */
+        }
+
+        .pagination {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin: 20px 0;
+        }
+
+        .footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            text-align: center;
+            font-size: 12px;
+            color: #999;
+            padding: 10px 0;
+        }
+
+        .footer a {
+            color: #999;
+            text-decoration: none;
+        }
+
+        .footer a:hover {
+            color: #666;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="wrapper">
+        <div class="container">
+            <!-- 顶部菜单栏 -->
+            <div class="top-bar">
+                <div>微信小程序: 皮兔工具箱</div>
+                <div class="help-btn" id="helpBtn">?</div>
+            </div>
+
+            <!-- 帮助弹窗 -->
+            <div class="help-modal" id="helpModal">
+                <div class="help-content">
+                    <h4>帮助</h4>
+                    <p style="text-align: center">
+                        <span
+                            style="display:inline-block;width:1em;height:1em;background:#3d7e1b;border-radius:2px;margin:0 4px;vertical-align:middle;"></span>
+                        优势x2
+                        <span
+                            style="display:inline-block;width:1em;height:1em;background:white;border:1px solid #ccc;border-radius:2px;margin:0 4px;vertical-align:middle;"></span>
+                        正常x1
+                        <span
+                            style="display:inline-block;width:1em;height:1em;background:#e43316;border-radius:2px;margin:0 4px;vertical-align:middle;"></span>
+                        劣势x0.5
+                    </p>
+                    <img src="asset/heqqqq.webp" alt="示意图"
+                        style="width:100%;border-radius:8px;max-width: 300px; display:block; margin: auto;">
+
+                    <p>使用: </p>
+                    <p>桌面端使用微信打开链接 p2gg.github.io/online-demo/kezhi 以小窗口运行, 游戏改为窗口模式.</p>
+                    <p>打赏: </p>
+                    <img src="asset/donation.webp" alt="示意图"
+                        style="width:100%;max-width:400px;border-radius:8px;display:block;margin:auto;">
+                    <button
+                        style="display:flex;align-items:center;justify-content:center;gap:6px;margin:10px auto 0;padding:12px 32px;border-radius:6px;background:white;color:#333;border:1px solid #ccc;cursor:pointer;"
+                        onclick="localStorage.clear(); sessionStorage.clear(); if(window.caches){caches.keys().then(keys=>keys.forEach(key=>caches.delete(key)));} location.reload();">
+                        强制刷新
+                    </button>
+                </div>
+            </div>
+            <div class="title">属性克制速算</div>
+
+            <div class="grid" id="grid"></div>
+
+            <button class="clear-btn" onclick="clearSelection()">一键清除</button>
+            <div class="result">
+                <div class="result-title">抵抗优先:</div>
+                <div class="result-list" id="result"></div>
+            </div>
+        </div>
+    </div>
+    <div class="footer">
+        <a href="https://beian.miit.gov.cn/" target="_blank">
+            粤ICP备2026041111号
+        </a>
+    </div>
+    <script src="js/main.js"></script>
+
+</body>
+
+</html>
